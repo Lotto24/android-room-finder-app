@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">RoomFinderTest</string>
+    <string name="action_settings">Settings</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="search_field">Enter Name or Room:</string>
+    <string name="result">no result</string>
+    
+	<color name="white">#FFFFFF</color>
+	<color name="gray">#A4A4A4</color>
+	<color name="blue">#0101DF</color>
+	
+	
+	
+	
+	
+
+</resources>
