@@ -14,25 +14,6 @@ import android.util.Log;
 public class DataProvider {
 	
 	String TAG = DataProvider.class.getName().toString();
-	//private Map<String, String> map = new HashMap<String, String>();
-	
-//	DataProvider() {
-//		this.map = new HashMap<String, String>();
-//	}
-	
-//	private Map<String, String> getData() {
-//		
-//		
-//		map.put("Peter Papnase", "AF001");
-//		map.put("Peter Ludwig", "AF002");
-//		map.put("Paul Löwe", "AF003");
-//		map.put("Martin Papnase", "BF001");
-//		map.put("Michael Meyer", "BF001");
-//		map.put("Klaus Kaufmann", "GF001");
-//		map.put("Marita Meyer", "HF001");
-//		
-//		return map;
-//	}
 	
 	public void addNewEntry(String line, Activity activity) {
 		if (line.contains(":")) {
@@ -45,10 +26,6 @@ public class DataProvider {
 			room = room.replace(room.substring(room.length()-2), "");
 			room = room.substring(1);
 			
-			//Log.i(TAG, "SplashScreenActivity - addNewEntry for name: " + name);
-			//Log.i(TAG, "SplashScreenActivity - addNewEntry for room: " + room);	
-			
-			//map.put(name, room);
 			storeDateByName (name, room, activity);
 			storeDateByRoom (room, name, activity);
 			
@@ -62,7 +39,7 @@ public class DataProvider {
 	public String getRoomByName(String name, Activity activity) {
 			
 		String room = readRoomByName(name, activity);	
-		//room = map.get(name);
+
 		return room;
 	}
 	

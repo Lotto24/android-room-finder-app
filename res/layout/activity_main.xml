@@ -6,7 +6,7 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:background="@color/gray"
+    android:background="@color/wihte"
     tools:context="com.roomfinder.MainActivity" >
 
     <TextView
@@ -28,6 +28,8 @@
         android:layout_alignLeft="@+id/autoComplete"
         android:layout_alignRight="@+id/autoComplete"
         android:layout_centerVertical="true"
+        android:background="@color/gray"
+        android:padding="2px"
         android:text="Open Map" />
 
     <AutoCompleteTextView
@@ -37,6 +39,7 @@
         android:layout_alignRight="@+id/text1"
         android:layout_below="@+id/text1"
         android:layout_marginTop="18dp"
+        android:textColor="@color/gray"
         android:ems="8" >
 
         <requestFocus />

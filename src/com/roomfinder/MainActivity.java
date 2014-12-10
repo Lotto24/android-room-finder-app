@@ -12,7 +12,6 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import com.dataProvider.DataProvider;
-import com.dataProvider.GetDataTask;
 import com.splashScreen.SplashScreenActivity;
 
 

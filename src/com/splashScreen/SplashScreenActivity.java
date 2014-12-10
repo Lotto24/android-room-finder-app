@@ -8,18 +8,23 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
 
 import com.dataProvider.DataProvider;
-import com.dataProvider.GetDataTask;
+import com.dataProvider.Login;
 import com.roomfinder.MainActivity;
 import com.roomfinder.R;
+import com.roomfinder.RoomActivity;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
+import utils.Constants;
 
-public class SplashScreenActivity extends Activity {
+public class SplashScreenActivity extends Activity implements View.OnClickListener{
 
 	private String TAG = SplashScreenActivity.class.getName();
 
@@ -31,10 +36,59 @@ public class SplashScreenActivity extends Activity {
 		Log.i(TAG, "SplashScreenActivity - onCreate reached!!!");
 		
 		TextView textView = (TextView) findViewById(R.id.load);
-		textView.setText("Loading...");
+		Login login = new Login();
 		
-		new BackgroundSplashTask().execute(this);
+		if (login.isLogin(this)){
+			textView.setText("Loading...");
+			new BackgroundSplashTask().execute(this);
+		} else {
+			
+			TextView headlinePassword = (TextView) findViewById(R.id.HeadlineLoginTextView);
+			TextView buttonPassword = (TextView) findViewById(R.id.loginButton);
+			TextView enterTextViewPassword = (TextView) findViewById(R.id.loginEditText);
+			headlinePassword.setVisibility(View.VISIBLE);
+			buttonPassword.setVisibility(View.VISIBLE);
+			enterTextViewPassword.setVisibility(View.VISIBLE);
+			textView.setText("Waiting for Password ...");
+			InputMethodManager imm = (InputMethodManager)getSystemService(
+				      Context.INPUT_METHOD_SERVICE);
+			imm.hideSoftInputFromWindow(enterTextViewPassword.getWindowToken(), 0);
+			imm.hideSoftInputFromWindow(buttonPassword.getWindowToken(), 0);
+			buttonPassword.setOnClickListener(this);
+		}
 
+	}
+	
+	
+	@Override
+	public void onClick(View v) {
+		
+		Login login = new Login();
+		
+	      switch (v.getId()) {
+          case R.id.loginButton:
+        	  Log.i(TAG, "SplashScreenActivity - Button login pressed");
+        	  TextView passwordEditText = (TextView) findViewById(R.id.loginEditText);
+        	  String password = passwordEditText.getText().toString();
+        	  
+        	  if (login.checkPassword(password, this)) {
+        		  TextView headlinePassword = (TextView) findViewById(R.id.HeadlineLoginTextView);
+        		  TextView textView = (TextView) findViewById(R.id.load);
+        		  textView.setText("Loading...");
+        		  headlinePassword.setText("Password accept - loading ...");
+        		  new BackgroundSplashTask().execute(this);
+        	  } else {
+        		  TextView headlinePassword = (TextView) findViewById(R.id.HeadlineLoginTextView);
+        		  headlinePassword.setText("Password not accept !!!");
+        	  }
+
+        	  
+              break;
+          default:
+              
+              break;
+      }
+		
 	}
 
 
@@ -48,11 +102,7 @@ public class SplashScreenActivity extends Activity {
 			super.onPreExecute();
 		}
 
-		protected Void doInBackground(Void... arg0) {
 
-			Log.i(TAG, "SplashScreenActivity - doInBackground without params reached!!!");
-			return null;
-		}
 
 		protected void onPostExecute(Object result) {
 			super.onPostExecute(result);
@@ -60,7 +110,7 @@ public class SplashScreenActivity extends Activity {
 			Log.i(TAG, "SplashScreenActivity - start main activity");
 			
 			Intent i = new Intent(SplashScreenActivity.this,
-					MainActivity.class);
+					RoomActivity.class);
 			startActivity(i);
 			finish();
 		}
@@ -77,7 +127,7 @@ public class SplashScreenActivity extends Activity {
 				isAlreadyStored = dataProvider.isDataStored((Activity)params[0]);
 				
 				if (!isAlreadyStored) {
-					HttpResponse response = new DefaultHttpClient().execute(new HttpGet(url));
+					HttpResponse response = new DefaultHttpClient().execute(new HttpGet(Constants.NAME_ROOM_URL));
 					BufferedReader rd = new BufferedReader(new InputStreamReader(
 					response.getEntity().getContent()));
 					String line = "";

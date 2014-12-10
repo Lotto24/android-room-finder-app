@@ -2,8 +2,8 @@ package com.roomfinder;
 
 import java.text.DecimalFormat;
 
+import com.dataProvider.DataProvider;
 import com.touchImageView.*;
-import com.touchImageView.TouchImageView;
 import com.touchImageView.TouchImageView.OnTouchImageViewListener;
 
 import android.app.Activity;
@@ -13,52 +13,69 @@ import android.graphics.RectF;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 
 public class RoomActivity extends Activity{
 	
-	private TouchImageView image;
-//	private TextView scrollPositionTextView;
-//	private TextView zoomedRectTextView;
-//	private TextView currentZoomTextView;
-	private DecimalFormat df;
+	private AutoCompleteTextView autoComplete;;
+	private ArrayAdapter<String> adapter;
+	private static final String TAG = RoomActivity.class.getName();
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_room);
 		
+		DataProvider dataProvider = new DataProvider();
+		String[] searchList = dataProvider.getSearchList(this);
 		
-//		super.onCreate(savedInstanceState);
-//		setContentView(R.layout.activity_single_touchimageview);
-		//
-		// DecimalFormat rounds to 2 decimal places.
-		//
-		df = new DecimalFormat("#.##");
-//		scrollPositionTextView = (TextView) findViewById(R.id.scroll_position);
-//		zoomedRectTextView = (TextView) findViewById(R.id.zoomed_rect);
-//		currentZoomTextView = (TextView) findViewById(R.id.current_zoom);
+		adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1,searchList);
+		autoComplete = (AutoCompleteTextView) findViewById(R.id.autoComplete);
 		
-		//image = (TouchImageView) findViewById(R.id.mapView);
 		
-		//
-		// Set the OnTouchImageViewListener which updates edit texts
-		// with zoom and scroll diagnostics.
-		//
-//		image.setOnTouchImageViewListener(new OnTouchImageViewListener() {
-//			
-//			@Override
-//			public void onMove() {
-//				PointF point = image.getScrollPosition();
-//				RectF rect = image.getZoomedRect();
-//				float currentZoom = image.getCurrentZoom();
-//				boolean isZoomed = image.isZoomed();
-//				scrollPositionTextView.setText("x: " + df.format(point.x) + " y: " + df.format(point.y));
-//				zoomedRectTextView.setText("left: " + df.format(rect.left) + " top: " + df.format(rect.top)
-//						+ "\nright: " + df.format(rect.right) + " bottom: " + df.format(rect.bottom));
-//				currentZoomTextView.setText("getCurrentZoom(): " + currentZoom + " isZoomed(): " + isZoomed);
-//			}
-//		});
+
+		// set adapter for the auto complete fields
+		autoComplete.setAdapter(adapter);
+		
+		// specify the minimum type of characters before drop-down list is shown
+		autoComplete.setThreshold(1);
+		
+		// when the user clicks an item of the drop-down list
+		autoComplete.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+					long arg3) {
+						
+				DataProvider dataProvider = new DataProvider();
+				String value = arg0.getItemAtPosition(arg2).toString();
+				String result = "nothing found";
+				
+
+				
+				if (dataProvider.isValueName(value)) {
+					result = dataProvider.getRoomByName(value, RoomActivity.this);
+					TextView roomTextView = (TextView) findViewById(R.id.roomTextView);
+					roomTextView.setText("Room: " + result);
+				} else {
+					result = value;
+				}
+				
+				if (result != "nothing found") {
+//					Button openMapButton = (Button) findViewById(R.id.open_map);
+//					openMapButton.setText(result);
+				}
+				
+			}
+		});
+		
+		
+
 	}
 		
 		
