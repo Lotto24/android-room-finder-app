@@ -9,3 +9,4 @@ RoomFinder
 - autocomplete text field to search by room or name
 - display room plan
 - resize room plan by fingertipp
+
