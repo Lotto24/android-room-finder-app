@@ -1,4 +1,7 @@
-package com.dataProvider;
+package com.data;
+
+import android.app.Activity;
+import android.content.SharedPreferences;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -6,22 +9,18 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import android.app.Activity;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
-import android.util.Log;
+import timber.log.Timber;
 
 public class DataProvider {
 	
-	String TAG = DataProvider.class.getName().toString();
-	
 	public void addNewEntry(String line, Activity activity) {
-		if (line.contains(":")) {
+
+        if (line.contains(":")) {
 			
 			String[] parts = line.split(":");
 			String name = parts[0];
 			String room = parts[1];
-			
+
 			name = name.replace(name.substring(name.length()-1), "");
 			room = room.replace(room.substring(room.length()-2), "");
 			room = room.substring(1);
@@ -30,17 +29,10 @@ public class DataProvider {
 			storeDateByRoom (room, name, activity);
 			
 		}
-		
-		//Log.i(TAG, "SplashScreenActivity - content of current map:" + map.toString());
 	}
 	
-	
-	
 	public String getRoomByName(String name, Activity activity) {
-			
-		String room = readRoomByName(name, activity);	
-
-		return room;
+		return readRoomByName(name, activity);
 	}
 	
 	
@@ -55,20 +47,14 @@ public class DataProvider {
 	}
 	
 	public String[] getSearchList(Activity activity) {
-		
-		Log.i(TAG, "SplashScreenActivity - getSearchList reached");
-		
 		ArrayList<String> newList = new ArrayList<String>();
 		newList = apendNames(newList, activity);
 		newList = apendRooms(newList, activity);
-		
 		return newList.toArray(new String[newList.size()]);		
 	}
 	
 	
 	private ArrayList<String> apendNames(ArrayList<String> currentList, Activity activity) {
-		Log.i(TAG, "SplashScreenActivity - apendNames reached");
-		
 		SharedPreferences settings = activity.getApplicationContext().getSharedPreferences("NAME_ROOM", 0);
 		Map<String, String> map = new HashMap<String, String>();
 		map = (Map<String, String>) settings.getAll();
@@ -78,16 +64,13 @@ public class DataProvider {
 		
 		while (it.hasNext()) {
 			String currentName = it.next();
-			//Log.i(TAG, "SplashScreenActivity - apendNames: " + currentName);
 			currentList.add(currentName);
 		}
 		return currentList;
 	}
 	
 	private ArrayList<String> apendRooms(ArrayList<String> currentList, Activity activity) {
-		Log.i(TAG, "SplashScreenActivity - apendRooms reached");
-		
-		SharedPreferences settings = activity.getApplicationContext().getSharedPreferences("NAME_ROOM", 0);
+        SharedPreferences settings = activity.getApplicationContext().getSharedPreferences("NAME_ROOM", 0);
 		Map<String, String> map = new HashMap<String, String>();
 		map = (Map<String, String>) settings.getAll();
 
@@ -96,7 +79,6 @@ public class DataProvider {
 		
 		while (it.hasNext()) {
 			String currentRoom = map.get(it.next());
-			//Log.i(TAG, "SplashScreenActivity - apendRooms: " + currentRoom);
 			currentList.add(currentRoom);
 		}
 		
@@ -145,18 +127,12 @@ public class DataProvider {
 		
 		
 		if (nameRoomMap.isEmpty() || roomNameMap.isEmpty()) {
-			Log.i(TAG, "SplashScreenActivity - No Data stored!!! ");
+            Timber.d("No room map data is stored.");
 			return false;
 		}
-		
-		Log.i(TAG, "SplashScreenActivity - Data already stored!!! ");
-		
+        Timber.d("room map is stored.");
 		return true;
-		
-		
-		
+
 	}
-	
- 
 
 }

@@ -19,7 +19,7 @@
 
         <activity
             
-            android:name="com.splashScreen.SplashScreenActivity"
+            android:name="com.logic.SplashScreenActivity"
             android:label="@string/app_name" 
             android:configChanges="orientation"
     		android:screenOrientation="portrait">
@@ -30,14 +30,14 @@
         </activity>
         
         <activity
-            android:name="com.roomfinder.MainActivity"
+            android:name="com.logic.MainActivity"
             android:label="@string/app_name" 
             android:configChanges="orientation"
     		android:screenOrientation="portrait">
         </activity>
         
         <activity
-            android:name="com.roomfinder.RoomActivity"
+            android:name="com.logic.RoomActivity"
             android:label="@string/app_name" 
             android:configChanges="orientation"
     		android:screenOrientation="portrait">
