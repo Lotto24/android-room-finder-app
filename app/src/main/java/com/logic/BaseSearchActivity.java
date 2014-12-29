@@ -6,6 +6,11 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 
 import com.data.DataProvider;
+import com.squareup.picasso.Picasso;
+import com.utils.Constants;
+import com.view.TouchImageView;
+
+import timber.log.Timber;
 
 public class BaseSearchActivity extends Activity {
 
@@ -21,6 +26,9 @@ public class BaseSearchActivity extends Activity {
         autoComplete.setAdapter(adapter);
         // specify the minimum type of characters before drop-down list is shown
         autoComplete.setThreshold(1);
+        TouchImageView roomImageView = (TouchImageView) findViewById(R.id.mapView);
+        Timber.d("load room image " + Constants.IMAGE_ROOM_URL);
+        Picasso.with(getApplicationContext()).load(Constants.IMAGE_ROOM_URL).into(roomImageView);
 
     }
 
