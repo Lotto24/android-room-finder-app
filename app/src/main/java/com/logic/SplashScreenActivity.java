@@ -64,10 +64,10 @@ public class SplashScreenActivity extends Activity implements View.OnClickListen
         boolean isLoggedIn = login.isLogin(this);
 
         if (isUpdateAvailable) {
-            isUpdateAvailable = true;
+            this.isUpdateAvailable = true;
             requestPassword();
         } else {
-            isUpdateAvailable = false;
+            this.isUpdateAvailable = false;
             if (isLocalDataAvailable) {
                 if (isLoggedIn) {
                     textView.setText("Loading...");
