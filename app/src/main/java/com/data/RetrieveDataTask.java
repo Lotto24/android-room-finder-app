@@ -5,7 +5,7 @@ import android.os.AsyncTask;
 
 import com.events.DataUpdatedEvent;
 import com.squareup.otto.Bus;
-import com.utils.Constants;
+import com.Constants;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;

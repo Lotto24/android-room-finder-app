@@ -1,4 +1,4 @@
-package com.logic;
+package com.ui.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -18,7 +18,7 @@ import com.squareup.otto.Subscribe;
 import javax.inject.Inject;
 
 import timber.log.Timber;
-import com.utils.RoomFinderApplication;
+import com.RoomFinderApplication;
 
 public class SplashScreenActivity extends Activity implements View.OnClickListener{
 
@@ -63,6 +63,7 @@ public class SplashScreenActivity extends Activity implements View.OnClickListen
         Timber.d("Update was done successfully ? = " + event.isSuccessFull() + ", Start main activity");
         ProgressBar spinner = (ProgressBar)findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
         Intent i = new Intent(SplashScreenActivity.this,
                 RoomActivity.class);
         startActivity(i);

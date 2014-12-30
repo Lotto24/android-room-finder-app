@@ -10,7 +10,7 @@
  * Extends Android ImageView to include pinch zooming, panning, fling and double tap zoom.
  */
 
-package com.view;
+package com.ui.view;
 
 import android.annotation.TargetApi;
 import android.content.Context;
@@ -284,9 +284,10 @@ public class TouchImageView extends ImageView {
     		setZoom(delayedZoomVariables.scale, delayedZoomVariables.focusX, delayedZoomVariables.focusY, delayedZoomVariables.scaleType);
     		delayedZoomVariables = null;
     	}
+
     	super.onDraw(canvas);
     }
-    
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
     	super.onConfigurationChanged(newConfig);
@@ -402,7 +403,7 @@ public class TouchImageView extends ImageView {
     /**
      * Set zoom parameters equal to another TouchImageView. Including scale, position,
      * and ScaleType.
-     * @param TouchImageView
+     * @param TouchImageView img.
      */
     public void setZoom(TouchImageView img) {
     	PointF center = img.getScrollPosition();
@@ -1274,4 +1275,5 @@ public class TouchImageView extends ImageView {
     	matrix.getValues(n);
         Timber.d("Scale: " + n[Matrix.MSCALE_X] + " TransX: " + n[Matrix.MTRANS_X] + " TransY: " + n[Matrix.MTRANS_Y]);
     }
+
 }

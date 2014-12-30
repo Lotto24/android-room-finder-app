@@ -1,9 +1,9 @@
-package com.utils;
+package com;
 
 import android.app.Application;
 
 import com.data.RetrieveDataTask;
-import com.logic.SplashScreenActivity;
+import com.ui.activity.SplashScreenActivity;
 import com.squareup.otto.Bus;
 
 import javax.inject.Singleton;

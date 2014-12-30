@@ -3,7 +3,7 @@ package com.data;
 import android.app.Activity;
 import android.content.SharedPreferences;
 
-import com.utils.Constants;
+import com.Constants;
 
 import timber.log.Timber;
 
