@@ -6,11 +6,11 @@
     android:orientation="vertical" >
     
 
-	    <com.touchImageView.TouchImageView
+	    <com.view.TouchImageView
 	        android:id="@+id/mapView"
 		    android:layout_width="match_parent"
 		    android:layout_height="match_parent"
-	        android:src="@drawable/map" />
+	        android:src="@drawable/logo_mobile_team" />
 
 	    <AutoCompleteTextView
 	        android:id="@+id/autoComplete"

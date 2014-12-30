@@ -7,7 +7,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     android:background="@color/wihte"
-    tools:context="com.roomfinder.MainActivity" >
+    tools:context="com.logic.MainActivity" >
 
     <TextView
         android:id="@+id/text1"
