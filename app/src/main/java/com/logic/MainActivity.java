@@ -13,6 +13,8 @@ import timber.log.Timber;
 
 public class MainActivity extends BaseSearchActivity implements View.OnClickListener {
 
+    private int mShortAnimationDuration;
+
     @Override
 	protected void onCreate(Bundle savedInstanceState) {
 
@@ -23,8 +25,13 @@ public class MainActivity extends BaseSearchActivity implements View.OnClickList
 
         Button searchButton = (Button) findViewById(R.id.open_map);
 		searchButton.setOnClickListener(this);
-		
-		// when the user clicks an item of the drop-down list
+
+        // Retrieve and cache the system's default "short" animation time.
+        mShortAnimationDuration = getResources().getInteger(
+                android.R.integer.config_shortAnimTime);
+
+
+        // when the user clicks an item of the drop-down list
 		autoComplete.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override

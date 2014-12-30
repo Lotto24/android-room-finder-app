@@ -28,6 +28,7 @@ public class BaseSearchActivity extends Activity {
         autoComplete.setThreshold(1);
         TouchImageView roomImageView = (TouchImageView) findViewById(R.id.mapView);
         Timber.d("load room image " + Constants.IMAGE_ROOM_URL);
+        Picasso.with(getApplicationContext()).setIndicatorsEnabled(true);
         Picasso.with(getApplicationContext()).load(Constants.IMAGE_ROOM_URL).into(roomImageView);
 
     }
