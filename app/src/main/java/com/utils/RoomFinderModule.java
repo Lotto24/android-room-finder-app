@@ -2,6 +2,7 @@ package com.utils;
 
 import android.app.Application;
 
+import com.data.CheckForDataUpdateTask;
 import com.data.RetrieveDataTask;
 import com.logic.SplashScreenActivity;
 import com.squareup.otto.Bus;
@@ -27,6 +28,11 @@ public class RoomFinderModule {
     @Provides
     public RetrieveDataTask provideRetrieveDataTask(Bus eventsBus) {
         return new RetrieveDataTask(eventsBus);
+    }
+
+    @Provides
+    public CheckForDataUpdateTask provideCheckForUpdateTask(Bus eventsBus) {
+        return new CheckForDataUpdateTask(eventsBus);
     }
 
     @Provides

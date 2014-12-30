@@ -51,13 +51,18 @@ public class RetrieveDataTask extends AsyncTask {
                 BufferedReader rd = new BufferedReader(new InputStreamReader(
                         response.getEntity().getContent()));
                 String line = "";
-
+                StringBuilder stringBuilder = new StringBuilder();
                 while ((line = rd.readLine()) != null) {
-
-                    dataProvider.addNewEntry(line, (Activity)params[0]);
+                    stringBuilder.append(line);
+                    //dataProvider.addNewEntry(line, (Activity)params[0]);
 
                 }
                 rd.close();
+                byte[] decryptedData = DecryptionService.decryptData(stringBuilder.toString().getBytes(), (String) params[1]);
+                String data = new String(decryptedData);
+                for (String l : data.split("\n")){
+                    dataProvider.addNewEntry(l,(Activity)params[0]);
+                }
             }
             Timber.d("... update success");
             return true;
@@ -67,6 +72,8 @@ public class RetrieveDataTask extends AsyncTask {
         return false;
 
     }
+
+
 
 }
 
