@@ -14,7 +14,7 @@ public class DecryptionService {
     public static final int MAX_PASSWORD_LENGTH = 16;
     public static final int MAX_SALT_LENGTH = MAX_PASSWORD_LENGTH - 1;
     public static final String ENCRYPTION_ALGORITHM = "AES";
-    public static final String TRANSFORMATION = "AES";
+    public static final String TRANSFORMATION = "AES/CBC/PKCS5Padding";
 
     private DecryptionService() {
 
