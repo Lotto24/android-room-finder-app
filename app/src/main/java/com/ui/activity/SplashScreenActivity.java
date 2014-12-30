@@ -1,4 +1,4 @@
-package com.logic;
+package com.ui.activity;
 
 import android.app.Activity;
 import android.content.Context;
@@ -9,6 +9,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.RoomFinderApplication;
 import com.data.CheckForDataUpdateTask;
 import com.data.DataProvider;
 import com.data.Login;
@@ -17,7 +18,6 @@ import com.events.DataUpdateAvailableEvent;
 import com.events.DataUpdatedEvent;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
-import com.utils.RoomFinderApplication;
 
 import javax.inject.Inject;
 
@@ -51,6 +51,7 @@ public class SplashScreenActivity extends Activity implements View.OnClickListen
         Timber.d("Update was done successfully ? = " + event.isSuccessFull() + ", Start main activity");
         ProgressBar spinner = (ProgressBar) findViewById(R.id.progressBar1);
         spinner.setVisibility(View.GONE);
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
         startNextActivity();
     }
 

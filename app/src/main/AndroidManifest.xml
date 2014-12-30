@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.logic"
+    package="com.ui.activity"
     android:versionCode="1"
-    android:versionName="1.0" >
-    
+    android:versionName="1.0">
+
     <uses-permission android:name="android.permission.INTERNET" />
 
     <uses-sdk
@@ -11,10 +11,10 @@
         android:targetSdkVersion="21" />
 
     <application
-        android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen"
+        android:name="com.RoomFinderApplication"
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
-        android:name="com.utils.RoomFinderApplication">
+        android:theme="@android:style/Theme.Holo.NoActionBar.Fullscreen">
 
         <!--
         android:allowBackup="true"
@@ -24,30 +24,22 @@
         -->
 
         <activity
-            
-            android:name=".SplashScreenActivity"
-            android:label="@string/app_name" 
+
+            android:name="com.ui.activity.SplashScreenActivity"
             android:configChanges="orientation"
-    		android:screenOrientation="portrait">
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        
+
         <activity
-            android:name="com.logic.MainActivity"
-            android:label="@string/app_name" 
+            android:name="com.ui.activity.RoomActivity"
             android:configChanges="orientation"
-    		android:screenOrientation="portrait">
-        </activity>
-        
-        <activity
-            android:name="com.logic.RoomActivity"
-            android:label="@string/app_name" 
-            android:configChanges="orientation"
-    		android:screenOrientation="portrait">
-        </activity>
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 

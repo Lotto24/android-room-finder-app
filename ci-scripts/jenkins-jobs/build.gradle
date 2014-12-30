@@ -1,0 +1,63 @@
+apply plugin: 'com.terrafolio.jenkins'
+buildscript {
+    repositories {
+        mavenLocal()
+        mavenCentral()
+        jcenter() // for gradle-jenkins-plugin and dependencies
+    }
+    dependencies {
+        classpath('com.terrafolio:gradle-jenkins-plugin:1.2.1')
+    }
+}
+
+project.ext {
+
+    jenkinsJobsPrefix = "ANDROID_ROOM_FINDER_APP"
+    gitProject = "eSailors/android-room-finder-app"
+    gitServer = "github.com"
+    gitRepo = "https://${project.gitServer}/${project.gitProject}"
+    gitRepoHttp = "https://${project.gitServer}/${project.gitProject}"
+    gitRemote = "origin"
+    gitBranch = "master"
+    useGradleStep = project.hasProperty('useGradleStep') && ['on', 'true'].contains(project.properties.useGradleStep)
+    lintThreshold = 388
+    warningForJobDescription = """
+<table>
+<tr>
+<td>
+<img src="https://raw.githubusercontent.com/eSailors/android-room-finder-app/master/app/src/main/res/drawable-hdpi/ic_launcher.png" />
+        </td>
+<td>
+<p>
+<b>Note:</b><br/>
+This job was configured automatically, any changes made manually will be overriden.
+<br/>
+                To change the configuration go to the
+                <a href="https://github.com/eSailors/android-room-finder-app/tree/master/ci-scripts/jenkins-jobs">Jenkins Jobs definition</a>
+for this project.
+</p>
+        </td>
+</tr>
+</table>
+"""
+}
+
+jenkins {
+
+    servers {
+        local {
+            url "${project.jenkinsServer}"
+            username "${project.jenkinsUser}"
+            password "${project.jenkinsPasswd}"
+        }
+    }
+
+    defaultServer servers.local
+
+    jobs {
+        apply from: 'compile-test.gradle'
+    }
+}
+
+task update(dependsOn: updateJenkinsItems, description: "Convenient task to create and upload jenkins jobs.")
+

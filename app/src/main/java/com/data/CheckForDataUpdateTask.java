@@ -4,9 +4,9 @@ import android.app.Activity;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
+import com.Constants;
 import com.events.DataUpdateAvailableEvent;
 import com.squareup.otto.Bus;
-import com.utils.Constants;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;

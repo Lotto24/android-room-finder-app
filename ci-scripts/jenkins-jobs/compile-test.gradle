@@ -1,0 +1,65 @@
+jenkins {
+    jobs {
+        compile {
+
+            dsl {
+                name("${project.jenkinsJobsPrefix}_COMPILE_TEST")
+                description """Compiles ${project.gitProject} and runs unit tests.
+<ul>\n
+<li>Compile project (:clean :build)</li>
+</ul>
+
+${project.warningForJobDescription}
+"""
+                parameters {
+                    stringParam('ANDROID_HOME', '${WORKSPACE}/android-sdk-r24', '')
+                }
+                jdk('1.7.0')
+                label("${project.restrictRunLabel}")
+
+                steps {
+                    shell('./ci-scripts/install-android-sdk.sh $ANDROID_HOME')
+                    gradle 'clean lint build qrcodes'
+                }
+                scm {
+                    git {
+                        remote {
+                            github(project.gitProject, 'git', project.gitServer)
+                            name("${project.gitRemote}")
+                            branch("${project.gitBranch}")
+                            url("${project.gitRepo}")
+                            credentials("${project.gitCredentials}")
+                        }
+                        branch('origin/master')
+                    }
+                }
+
+                triggers {
+                    scm('*/15 * * * *')
+                }
+
+                publishers {
+
+                    extendedEmail('', '', '') {
+                        trigger(triggerName: 'Failure', sendToDevelopers: true, sendToRequester: true, includeCulprits: true, sendToRecipientList: false)
+                        trigger(triggerName: 'StillFailing', sendToDevelopers: true, sendToRequester: true, includeCulprits: true, sendToRecipientList: false)
+                        trigger(triggerName: 'Unstable', sendToDevelopers: true, sendToRequester: true, includeCulprits: true, sendToRecipientList: false)
+                        trigger(triggerName: 'Fixed', sendToDevelopers: true, sendToRequester: true, includeCulprits: true, sendToRecipientList: false)
+                    }
+
+                    allowBrokenBuildClaiming()
+
+                    warnings(['Java Compiler (javac)'])
+
+                }
+
+                wrappers {
+                    timestamps()
+                }
+
+                // discard old builds:
+                logRotator(7, 49) // daysToKeep, numBuildsToKeep
+            }
+        }
+    }
+}
