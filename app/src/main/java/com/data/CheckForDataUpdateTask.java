@@ -63,6 +63,8 @@ public class CheckForDataUpdateTask extends AsyncTask {
         }
         SharedPreferences spData = ((Activity) params[0]).getApplicationContext().getSharedPreferences("Data", 0);
         int localVersion = spData.getInt("DataVersion", 0);
+        spData.edit().putInt("DataVersionRemote", remoteVersion).apply();
+
         if (remoteVersion > localVersion) {
             return true;
         }
