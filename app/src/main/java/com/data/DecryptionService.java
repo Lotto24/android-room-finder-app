@@ -1,6 +1,7 @@
 package com.data;
 
 import java.security.Key;
+import java.util.List;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.SecretKeySpec;
@@ -25,6 +26,19 @@ public class DecryptionService {
         } catch (Exception e) {
             throw new RuntimeException("Cannot decrypt data", e);
         }
+    }
+
+    public static byte[] decryptData(final List<Byte> data, final String password) {
+        return decryptData(convertListToArray(data),password);
+    }
+
+    private static byte[] convertListToArray(List<Byte> data) {
+        byte[] result = new byte[data.size()];
+        int i = -1;
+        for(Byte b : data){
+            result[++i] = b;
+        }
+        return result;
     }
 
     public byte[] decrypt(final byte[] data, final String password) throws Exception {
