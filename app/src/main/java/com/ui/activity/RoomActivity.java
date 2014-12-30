@@ -20,37 +20,37 @@ import timber.log.Timber;
 
 public class RoomActivity extends Activity {
 
+    protected static final String NO_RESULTS = "nothing found";
     protected AutoCompleteTextView autoComplete;
     protected ArrayAdapter<String> adapter;
-    protected static final String NO_RESULTS = "nothing found";
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_room);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_room);
 
         setupView();
 
-		// when the user clicks an item of the drop-down list
-		autoComplete.setOnItemClickListener(new OnItemClickListener() {
+        // when the user clicks an item of the drop-down list
+        autoComplete.setOnItemClickListener(new OnItemClickListener() {
 
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
-					long arg3) {
-						
-				DataProvider dataProvider = new DataProvider();
-				String value = arg0.getItemAtPosition(arg2).toString();
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,
+                                    long arg3) {
 
-				if (dataProvider.isValueName(value)) {
-					String result = dataProvider.getRoomByName(value, RoomActivity.this);
-					TextView roomTextView = (TextView) findViewById(R.id.roomTextView);
-					roomTextView.setText("Room: " + result);
+                DataProvider dataProvider = new DataProvider();
+                String value = arg0.getItemAtPosition(arg2).toString();
+
+                if (dataProvider.isValueName(value)) {
+                    String result = dataProvider.getRoomByName(value, RoomActivity.this);
+                    TextView roomTextView = (TextView) findViewById(R.id.roomTextView);
+                    roomTextView.setText("Room: " + result);
                     TouchImageView imageView = (TouchImageView) findViewById(R.id.mapView);
                     closeSoftKeyboard();
-				}
-				
-			}
-		});
+                }
+
+            }
+        });
 
         autoComplete.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,19 +59,19 @@ public class RoomActivity extends Activity {
             }
         });
 
-	}
+    }
 
     private void closeSoftKeyboard() {
 
         InputMethodManager mgr = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        ((InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+        ((InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
 
     }
 
     private void setupView() {
         DataProvider dataProvider = new DataProvider();
         String[] searchList = dataProvider.getSearchList(this);
-        adapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, searchList);
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, searchList);
         autoComplete = (AutoCompleteTextView) findViewById(R.id.autoComplete);
         autoComplete.setAdapter(adapter);
         // specify the minimum type of characters before drop-down list is shown
@@ -84,7 +84,7 @@ public class RoomActivity extends Activity {
     }
 
 }
-	
+
 	
 
 	
