@@ -23,7 +23,7 @@ import com.Constants;
 
 import timber.log.Timber;
 
-public class Login {
+public class LoginService {
 
     public boolean isLogin(Activity activity) {
 

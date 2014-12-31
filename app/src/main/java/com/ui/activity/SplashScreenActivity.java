@@ -28,29 +28,40 @@ import android.widget.TextView;
 import com.RoomFinderApplication;
 import com.data.CheckForDataUpdateTask;
 import com.data.DataProvider;
-import com.data.Login;
+import com.data.LoginService;
 import com.data.RetrieveDataTask;
 import com.events.DataUpdateAvailableEvent;
 import com.events.DataUpdatedEvent;
 import com.squareup.otto.Bus;
 import com.squareup.otto.Subscribe;
+import com.ui.interactor.SplashScreenInteractor;
+import com.ui.presenter.SplashScreenPresenter;
+import com.ui.view.SplashScreenView;
 
 import javax.inject.Inject;
 
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 import timber.log.Timber;
 
-public class SplashScreenActivity extends Activity implements View.OnClickListener {
-
-    @Inject
-    RetrieveDataTask retrieveDataTask;
+/**
+ *  Splash Screen Activity is shown if new data is retrieved.
+ *  This class contains only logic for the manipulation of the concrete ui elements itself,
+ *  but it has no business logic and ui changes are triggered by a presenter.
+ *
+ */
+public class SplashScreenActivity extends Activity implements SplashScreenView {
 
     @Inject
     CheckForDataUpdateTask checkForDataUpdateTask;
 
     @Inject
-    Bus eventsBus;
+    SplashScreenInteractor splashScreenInteractor;
 
-    private boolean isUpdateAvailable;
+    private SplashScreenPresenter presenter;
+
+    @Inject
+    Bus eventsBus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,47 +69,13 @@ public class SplashScreenActivity extends Activity implements View.OnClickListen
         RoomFinderApplication.get(getApplicationContext()).inject(this);
         setContentView(R.layout.splash_screen);
         Timber.d("Start splash screen.");
-
-        checkForDataUpdateTask.execute(this);
-    }
-
-    @Subscribe
-    public void dataWasUpdated(DataUpdatedEvent event) {
-        Timber.d("Update was done successfully ? = " + event.isSuccessFull() + ", Start main activity");
-        ProgressBar spinner = (ProgressBar) findViewById(R.id.progressBar1);
-        spinner.setVisibility(View.GONE);
         overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-        startNextActivity();
+        presenter = new SplashScreenPresenter(splashScreenInteractor, this, eventsBus, this);
+        checkForDataUpdateTask.execute(this);
+        ButterKnife.inject(this);
     }
 
-    @Subscribe
-    public void dataUpdateIsAvailable(DataUpdateAvailableEvent event) {
-        Login login = new Login();
-        TextView textView = (TextView) findViewById(R.id.load);
-
-        boolean isLocalDataAvailable = new DataProvider().isDataStored(this);
-        boolean isUpdateAvailable = event.updateAvailable;
-        boolean isLoggedIn = login.isLogin(this);
-
-        if (isUpdateAvailable) {
-            this.isUpdateAvailable = true;
-            requestPassword();
-        } else {
-            this.isUpdateAvailable = false;
-            if (isLocalDataAvailable) {
-                if (isLoggedIn) {
-                    textView.setText("Loading...");
-                    startNextActivity();
-                } else {
-                    requestPassword();
-                }
-            } else {
-                textView.setText("This service is currently not available");
-            }
-        }
-    }
-
-    private void requestPassword() {
+    public void showPasswordRequired() {
         TextView headlinePassword = (TextView) findViewById(R.id.HeadlineLoginTextView);
         TextView buttonPassword = (TextView) findViewById(R.id.loginButton);
         TextView enterTextViewPassword = (TextView) findViewById(R.id.loginEditText);
@@ -111,10 +88,12 @@ public class SplashScreenActivity extends Activity implements View.OnClickListen
                 Context.INPUT_METHOD_SERVICE);
         imm.hideSoftInputFromWindow(enterTextViewPassword.getWindowToken(), 0);
         imm.hideSoftInputFromWindow(buttonPassword.getWindowToken(), 0);
-        buttonPassword.setOnClickListener(this);
     }
 
-    private void startNextActivity() {
+    public void skipLogin() {
+        ProgressBar spinner = (ProgressBar) findViewById(R.id.progressBar1);
+        spinner.setVisibility(View.GONE);
+
         Intent i = new Intent(SplashScreenActivity.this,
                 RoomActivity.class);
         startActivity(i);
@@ -125,43 +104,34 @@ public class SplashScreenActivity extends Activity implements View.OnClickListen
     public void onResume() {
         super.onResume();
         Timber.d("register at event bus");
-        eventsBus.register(this);
+        presenter.register();
     }
 
     @Override
     public void onPause() {
         super.onStop();
         Timber.d("unregister at event bus");
-        eventsBus.unregister(this);
+        presenter.unregister();
     }
 
-    @Override
+    @OnClick(R.id.loginButton)
     public void onClick(View v) {
-        Login login = new Login();
 
-        switch (v.getId()) {
-            case R.id.loginButton:
-                Timber.d("Button login pressed");
-                TextView passwordEditText = (TextView) findViewById(R.id.loginEditText);
-                String password = passwordEditText.getText().toString();
+         TextView passwordEditText = (TextView) findViewById(R.id.loginEditText);
+         String password = passwordEditText.getText().toString();
+         presenter.login(password);
 
-                if (login.checkPassword(password, this)) {
-                    TextView headlinePassword = (TextView) findViewById(R.id.HeadlineLoginTextView);
-                    TextView textView = (TextView) findViewById(R.id.load);
-                    textView.setText("Loading...");
-                    headlinePassword.setText("Password accepted - loading ...");
-                    if (isUpdateAvailable) {
-                        Timber.d("Trigger update.");
-                        retrieveDataTask.execute(this, password);
-                    }
-                } else {
-                    TextView headlinePassword = (TextView) findViewById(R.id.HeadlineLoginTextView);
-                    headlinePassword.setText("Password not accepted !!!");
-                }
+    }
 
-                break;
-            default:
-                break;
-        }
+    public void showPasswordAccepted() {
+        TextView headlinePassword = (TextView) findViewById(R.id.HeadlineLoginTextView);
+        TextView textView = (TextView) findViewById(R.id.load);
+        textView.setText("Loading...");
+        headlinePassword.setText("Password accepted - loading ...");
+    }
+
+    public void showNotPasswordAccepted() {
+        TextView headlinePassword = (TextView) findViewById(R.id.HeadlineLoginTextView);
+        headlinePassword.setText("Password not accepted !!!");
     }
 }

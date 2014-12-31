@@ -22,6 +22,7 @@ import com.data.CheckForDataUpdateTask;
 import com.data.RetrieveDataTask;
 import com.squareup.otto.Bus;
 import com.ui.activity.SplashScreenActivity;
+import com.ui.interactor.SplashScreenInteractor;
 
 import javax.inject.Singleton;
 
@@ -49,6 +50,11 @@ public class RoomFinderModule {
     @Provides
     public CheckForDataUpdateTask provideCheckForUpdateTask(Bus eventsBus) {
         return new CheckForDataUpdateTask(eventsBus);
+    }
+
+    @Provides
+    public SplashScreenInteractor provideSplashScreenInteractor(RetrieveDataTask retrieveDataTask) {
+        return new SplashScreenInteractor(retrieveDataTask);
     }
 
     @Provides
