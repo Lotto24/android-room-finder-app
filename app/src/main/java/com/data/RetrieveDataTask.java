@@ -1,6 +1,7 @@
 package com.data;
 
 import android.app.Activity;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 
 import com.Constants;
@@ -62,6 +63,10 @@ public class RetrieveDataTask extends AsyncTask {
                     dataProvider.addNewEntry(l, (Activity) params[0]);
                 }
             }
+            SharedPreferences spData = ((Activity) params[0]).getApplicationContext().getSharedPreferences("Data", 0);
+            int remoteVersion = spData.getInt("DataVersionRemote", 0);
+            spData.edit().putInt("DataVersion", remoteVersion).apply();
+
             Timber.d("... update success");
             return true;
         } catch (Exception e) {
