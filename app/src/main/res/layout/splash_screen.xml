@@ -1,22 +1,38 @@
+<!--
+  ~ Copyright 2014 eSailors IT Solutions GmbH
+  ~
+  ~    Licensed under the Apache License, Version 2.0 (the "License");
+  ~    you may not use this file except in compliance with the License.
+  ~    You may obtain a copy of the License at
+  ~
+  ~        http://www.apache.org/licenses/LICENSE-2.0
+  ~
+  ~    Unless required by applicable law or agreed to in writing, software
+  ~    distributed under the License is distributed on an "AS IS" BASIS,
+  ~    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  ~    See the License for the specific language governing permissions and
+  ~    limitations under the License.
+  -->
+
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="@color/wihte" >
-   	
-    
-     <TextView
-	    android:id="@+id/HeadlineLoginTextView"
-	    android:layout_width="fill_parent"
-	    android:layout_height="50dp"
-	    android:layout_marginLeft="10dp"
-	    android:layout_marginTop="10dp"
-	    android:layout_marginRight="10dp"
-	    android:background="@color/light_gray"
-	    android:gravity="center"
-	    android:visibility="gone"
-	    android:textAppearance="?android:attr/textAppearanceMedium"
-	    android:textColor="@color/red"
-	    android:text="Enter Password" />
+    android:background="@color/wihte">
+
+
+    <TextView
+        android:id="@+id/HeadlineLoginTextView"
+        android:layout_width="fill_parent"
+        android:layout_height="50dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/light_gray"
+        android:gravity="center"
+        android:text="Enter Password"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/red"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/imgLogo"
@@ -42,12 +58,12 @@
         android:layout_height="50dp"
         android:layout_alignLeft="@+id/HeadlineLoginTextView"
         android:layout_below="@+id/HeadlineLoginTextView"
-        android:layout_marginTop="5dp"
         android:layout_marginLeft="0dp"
-        android:visibility="gone"
-        android:textColor="@color/black"
+        android:layout_marginTop="5dp"
         android:ems="10"
-        android:inputType="textPersonName" >
+        android:inputType="textPersonName"
+        android:textColor="@color/black"
+        android:visibility="gone">
 
         <requestFocus />
     </EditText>
@@ -57,12 +73,12 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="100dp"
         android:layout_height="50dp"
-        android:background="@color/gray"
         android:layout_alignBaseline="@+id/loginEditText"
         android:layout_alignBottom="@+id/loginEditText"
         android:layout_alignRight="@+id/HeadlineLoginTextView"
-        android:visibility="gone"
-        android:text="Login" />
+        android:background="@color/gray"
+        android:text="Login"
+        android:visibility="gone" />
 
     <ProgressBar
         android:id="@+id/progressBar1"
@@ -70,6 +86,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"/>
+        android:layout_centerVertical="true" />
 
 </RelativeLayout>
