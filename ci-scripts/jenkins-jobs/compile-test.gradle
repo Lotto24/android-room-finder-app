@@ -37,7 +37,7 @@ ${project.warningForJobDescription}
 
                 steps {
                     shell('./ci-scripts/install-android-sdk.sh $ANDROID_HOME')
-                    gradle 'clean lint build qrcodes'
+                    gradle 'clean build'
                 }
                 scm {
                     git {
